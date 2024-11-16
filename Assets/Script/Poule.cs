@@ -11,32 +11,34 @@ public class Poule : MonoBehaviour
     public int _MaxFaim = 10;
     public int _Soif = 0;
     public int _MaxSoif = 10;
-    public float _Speed = 5f;
-    public float _MaxSpeed = 7f;
-    public float _MinSpeed = 3f;
-    public int _Taille = 1;
+    float probReproduction = 0.5f;
 
     public Transform[] foodSources;
     public Transform[] waterSources;
 
     public ResourceManager _ResourceManager;
 
-    private float reproductionCooldown = 10f;
-    private float timeSinceLastReproduction = 0f;
+    public GameObject _PrefabPaul;
+    public GameObject _PrefabRobert;
+    public GameObject _PrefabGabin;
+    public GameObject _PrefabGreggouze;
+    public GameObject _PrefabAntonette;
 
+    private PouleDeplacement _pouleDeplacement;
     private bool hasTarget = false;
-    public Transform target;
-    private Vector3 randomTarget;
+    private Transform target;
+
+    // Variables pour la reproduction
+    private float timeSinceLastReproduction = 0f;
+    public float reproductionCooldown = 10f; // Temps entre les reproductions en secondes
 
     void Start()
     {
-        if (_ResourceManager == null)
-        {
-            Debug.LogError("ResourceManager n'a pas �t� assign� !", this);
-        }
-        _Taille = Random.Range(1, 5);
-        _Speed = Mathf.Clamp(_MaxSpeed - _Taille, _MinSpeed, _MaxSpeed);
-        SetRandomTarget();
+        _pouleDeplacement = GetComponent<PouleDeplacement>(); // Récupérer le script de déplacement
+
+        // Définir une taille aléatoire pour la poule (Taille et vitesse peuvent être ajustées selon besoin)
+        _pouleDeplacement.SetSpeed(Random.Range(1f, 5f));
+
         MettreAJourSources();
     }
 
@@ -51,7 +53,6 @@ public class Poule : MonoBehaviour
 
         GererFaimEtSoif();
         GererReproduction();
-        DeplacerPoule();
     }
 
     void GererFaimEtSoif()
@@ -61,107 +62,62 @@ public class Poule : MonoBehaviour
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
-            Mourir();
+            Mourir(); // La poule meurt si elle atteint le maximum de faim ou de soif
         }
 
-        // V�rifie si la poule a faim ou soif et cherche la nourriture ou l'eau
+        // Si la poule a faim ou soif, elle doit constamment chercher la ressource la plus proche
+        if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
+        {
+            MettreAJourCible(); // Met à jour la cible de nourriture ou d'eau la plus proche
+
+            // Si la poule est proche de la cible, elle consomme la ressource
+            if (hasTarget && target != null && Vector3.Distance(transform.position, target.position) < 1f)
+            {
+                Consumable consumable = target.GetComponent<Consumable>();
+
+                if (consumable != null && !consumable.isReserved)
+                {
+                    consumable.isReserved = true; // Réserver la ressource pour cette poule
+
+                    if (target.CompareTag("Food"))
+                    {
+                        _Faim = 0; // Réinitialiser la faim après consommation
+                        _ResourceManager.ConsumeResource(target.gameObject); // Consommer la nourriture
+                    }
+                    else if (target.CompareTag("Water"))
+                    {
+                        _Soif = 0; // Réinitialiser la soif après consommation
+                        _ResourceManager.ConsumeResource(target.gameObject); // Consommer l'eau
+                    }
+
+                    consumable.isReserved = false; // Libérer la ressource après consommation
+                    hasTarget = false; // Réinitialiser l'état de recherche pour permettre une nouvelle recherche
+                }
+                else
+                {
+                    // Si la ressource est déjà réservée ou consommée, chercher une autre ressource immédiatement
+                    hasTarget = false;
+                    MettreAJourCible();
+                }
+            }
+        }
+    }
+
+    void MettreAJourCible()
+    {
+        // Chercher la nourriture ou l'eau la plus proche en fonction des besoins
         if (_Faim >= _MaxFaim / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(foodSources);
             hasTarget = target != null;
+            if (hasTarget) _pouleDeplacement.SetTarget(target); // Assigner la nouvelle cible au script de déplacement
         }
         else if (_Soif >= _MaxSoif / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(waterSources);
             hasTarget = target != null;
+            if (hasTarget) _pouleDeplacement.SetTarget(target); // Assigner la nouvelle cible au script de déplacement
         }
-
-        // Si une cible est trouv�e, la poule s'y d�place
-        if (hasTarget && target != null && Vector3.Distance(transform.position, target.position) < 1f)
-        {
-            Consumable consumable = target.GetComponent<Consumable>();
-
-            if (consumable != null && !consumable.isReserved)
-            {
-                consumable.isReserved = true; // R�serve la ressource pour cette poule
-
-                if (target.CompareTag("Food"))
-                {
-                    _Faim = 0;
-                    _ResourceManager.ConsumeResource(target.gameObject); // Consommer la nourriture
-                }
-                else if (target.CompareTag("Water"))
-                {
-                    _Soif = 0;
-                    _ResourceManager.ConsumeResource(target.gameObject); // Consommer l'eau
-                }
-
-                consumable.isReserved = false; // Lib�re la ressource apr�s consommation
-                target = null;
-                hasTarget = false;
-                MettreAJourSources();  // Mettre � jour la liste des sources apr�s consommation
-            }
-            else
-            {
-                // Si la ressource est d�j� r�serv�e par une autre poule, recherche une autre cible
-                target = null;
-                hasTarget = false;
-                MettreAJourSources();
-            }
-        }
-    }
-
-    void GererReproduction()
-    {
-        timeSinceLastReproduction += Time.deltaTime;
-
-        if (timeSinceLastReproduction >= reproductionCooldown)
-        {
-            timeSinceLastReproduction = 0f;
-
-            if (Random.Range(0f, 1f) < 0.2f)
-            {
-                Reproduire();
-            }
-        }
-    }
-
-    void Reproduire()
-    {
-        // Logique de reproduction
-    }
-
-    void Mourir()
-    {
-        Destroy(gameObject);
-    }
-
-    void DeplacerPoule()
-    {
-        if (hasTarget && target != null)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * _Speed * Time.deltaTime;
-        }
-        else
-        {
-            Vector3 direction = (randomTarget - transform.position).normalized;
-            transform.position += direction * _Speed * Time.deltaTime;
-
-            if (Vector3.Distance(transform.position, randomTarget) < 1f)
-            {
-                SetRandomTarget();
-            }
-        }
-    }
-
-    void SetRandomTarget()
-    {
-        randomTarget = new Vector3(
-            transform.position.x + Random.Range(-5f, 5f),
-            transform.position.y,
-            transform.position.z + Random.Range(-5f, 5f)
-        );
     }
 
     Transform TrouverPointLePlusProche(Transform[] points)
@@ -171,7 +127,6 @@ public class Poule : MonoBehaviour
 
         foreach (Transform point in points)
         {
-            // V�rification si le point existe toujours avant de continuer
             if (point != null && point.GetComponent<Consumable>() != null && !point.GetComponent<Consumable>().isReserved)
             {
                 float distance = Vector3.Distance(transform.position, point.position);
@@ -186,6 +141,60 @@ public class Poule : MonoBehaviour
         return pointLePlusProche;
     }
 
+    void Mourir()
+    {
+        Destroy(gameObject); // Détruire l'objet poule si elle meurt
+    }
+
+    void GererReproduction()
+    {
+        // Mettre à jour le temps écoulé depuis la dernière reproduction
+        timeSinceLastReproduction += Time.deltaTime;
+
+        // Vérifier si le cooldown est écoulé
+        if (timeSinceLastReproduction >= reproductionCooldown)
+        {
+            // Réinitialiser le temps écoulé pour la prochaine reproduction
+            timeSinceLastReproduction = 0f;
+
+            // Vérifier si la probabilité de reproduction est remplie
+            if (Random.Range(0f, 1f) < probReproduction)
+            {
+                Reproduire();  // Appeler la méthode de reproduction
+            }
+        }
+    }
+
+
+    void Reproduire()
+    {
+        Debug.Log("La poule se reproduit !");
+        GameObject prefabAReproduire = GetRandomPrefab();
+        if (prefabAReproduire != null)
+        {
+            Vector3 positionNouveauPoule = new Vector3(
+                transform.position.x + Random.Range(-1f, 1f),
+                transform.position.y,
+                transform.position.z + Random.Range(-1f, 1f)
+            );
+
+            GameObject nouvellePoule = Instantiate(prefabAReproduire, positionNouveauPoule, Quaternion.identity);
+
+            Poule pouleScript = nouvellePoule.GetComponent<Poule>();
+            if (pouleScript != null)
+            {
+                pouleScript.ResetStats(); 
+            }
+        }
+    }
+
+    public void ResetStats()
+    {
+        _Age = 0;  
+        _Faim = 0;    
+        _Soif = 0;       
+    }
+
     void MettreAJourSources()
     {
         foodSources = GameObject.FindGameObjectsWithTag("Food")
@@ -195,5 +204,12 @@ public class Poule : MonoBehaviour
         waterSources = GameObject.FindGameObjectsWithTag("Water")
             .Select(go => go.transform)
             .ToArray();
+    }
+
+    GameObject GetRandomPrefab()
+    {
+        // Sélection aléatoire d'un prefab parmi les cinq disponibles
+        GameObject[] prefabs = { _PrefabPaul, _PrefabRobert, _PrefabGabin, _PrefabGreggouze, _PrefabAntonette };
+        return prefabs[Random.Range(0, prefabs.Length)];
     }
 }

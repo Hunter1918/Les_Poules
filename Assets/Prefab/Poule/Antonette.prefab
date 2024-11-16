@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 5843914023079810102}
   - component: {fileID: 2992584185559801377}
   - component: {fileID: 233688110602401644}
-  m_Layer: 0
+  - component: {fileID: -9200121047258705188}
+  m_Layer: 6
   m_Name: Antonette
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -167,13 +168,37 @@ MonoBehaviour:
   _MaxFaim: 10000
   _Soif: 0
   _MaxSoif: 20000
-  _Speed: 7
-  _MaxSpeed: 10
-  _MinSpeed: 3
-  _Taille: 1
   foodSources:
   - {fileID: 0}
   waterSources:
   - {fileID: 0}
-  _ResourceManager: {fileID: 0}
-  target: {fileID: 0}
+  _ResourceManager: {fileID: 8040924597906987719, guid: f85b2c1a8b8efb842b09d6a80cbce60d,
+    type: 3}
+  _PrefabPaul: {fileID: 4069895189782292842, guid: 0cd8b9c4e790f23459722c39e4b9c1c5,
+    type: 3}
+  _PrefabRobert: {fileID: 1129800542623615599, guid: 8639a8a807dbedb41a5f24a24e103c6d,
+    type: 3}
+  _PrefabGabin: {fileID: 2292584947145185828, guid: 340c4b2c7cab1af458c23588ad4f5f98,
+    type: 3}
+  _PrefabGreggouze: {fileID: 2848004921885685423, guid: 6c8006c940f75c94e9724e7f92199014,
+    type: 3}
+  _PrefabAntonette: {fileID: 2796663364375027901}
+  reproductionCooldown: 30
+--- !u!114 &-9200121047258705188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2796663364375027901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e982939165910fa4c9137483082ef03d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vitesseMax: 10
+  distanceMinEntrePoules: 1.5
+  zoneDeDetection: 3
+  layerPoules:
+    serializedVersion: 2
+    m_Bits: 64
