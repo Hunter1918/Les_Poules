@@ -17,7 +17,6 @@ public class Ennemi : MonoBehaviour
 
     private void Update()
     {
-        // Move this enemy (using its rigidbody, so collisions are processed as expected by the physics engine).
         _rigidbody.position += (Vector3)transform.up * speed * Time.deltaTime;
     }
 

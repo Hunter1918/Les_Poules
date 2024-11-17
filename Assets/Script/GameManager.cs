@@ -10,15 +10,12 @@ public class GameManager : MonoBehaviour
     public GameObject _PrefabGreggouze;
     public GameObject _PrefabAntonette;
 
-    // Cette fonction est appelée une fois au début du jeu
     void Start()
     {
-        // Spawner deux poules au début du jeu
         SpawnPoule();
         SpawnPoule();
     }
 
-    // Fonction pour spawner une poule aléatoire
     void SpawnPoule()
     {
         GameObject prefabAReproduire = GetRandomPrefab();
@@ -33,10 +30,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Sélectionner un prefab aléatoire parmi les poules disponibles
     GameObject GetRandomPrefab()
     {
-        int randomIndex = Random.Range(0, 5); // Il y a 5 préfabriqués possibles
+        int randomIndex = Random.Range(0, 5); 
         switch (randomIndex)
         {
             case 0: return _PrefabPaul;

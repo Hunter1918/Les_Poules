@@ -28,15 +28,12 @@ public class Poule : MonoBehaviour
     private bool hasTarget = false;
     private Transform target;
 
-    // Variables pour la reproduction
     private float timeSinceLastReproduction = 0f;
-    public float reproductionCooldown = 10f; // Temps entre les reproductions en secondes
+    public float reproductionCooldown = 10f;
 
     void Start()
     {
-        _pouleDeplacement = GetComponent<PouleDeplacement>(); // Récupérer le script de déplacement
-
-        // Définir une taille aléatoire pour la poule (Taille et vitesse peuvent être ajustées selon besoin)
+        _pouleDeplacement = GetComponent<PouleDeplacement>();
         _pouleDeplacement.SetSpeed(Random.Range(1f, 5f));
 
         MettreAJourSources();
@@ -45,6 +42,9 @@ public class Poule : MonoBehaviour
     void Update()
     {
         _Age++;
+
+        // Mise à jour régulière des sources de nourriture et d'eau
+        MettreAJourSources();
 
         if (_Age >= _CycleDeVieMax)
         {
@@ -68,34 +68,32 @@ public class Poule : MonoBehaviour
         // Si la poule a faim ou soif, elle doit constamment chercher la ressource la plus proche
         if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
         {
-            MettreAJourCible(); // Met à jour la cible de nourriture ou d'eau la plus proche
+            MettreAJourCible();
 
-            // Si la poule est proche de la cible, elle consomme la ressource
             if (hasTarget && target != null && Vector3.Distance(transform.position, target.position) < 1f)
             {
                 Consumable consumable = target.GetComponent<Consumable>();
 
                 if (consumable != null && !consumable.isReserved)
                 {
-                    consumable.isReserved = true; // Réserver la ressource pour cette poule
+                    consumable.isReserved = true;
 
                     if (target.CompareTag("Food"))
                     {
-                        _Faim = 0; // Réinitialiser la faim après consommation
-                        _ResourceManager.ConsumeResource(target.gameObject); // Consommer la nourriture
+                        _Faim = 0;
+                        _ResourceManager.ConsumeResource(target.gameObject);
                     }
                     else if (target.CompareTag("Water"))
                     {
-                        _Soif = 0; // Réinitialiser la soif après consommation
-                        _ResourceManager.ConsumeResource(target.gameObject); // Consommer l'eau
+                        _Soif = 0;
+                        _ResourceManager.ConsumeResource(target.gameObject);
                     }
 
-                    consumable.isReserved = false; // Libérer la ressource après consommation
-                    hasTarget = false; // Réinitialiser l'état de recherche pour permettre une nouvelle recherche
+                    consumable.isReserved = false;
+                    hasTarget = false;
                 }
                 else
                 {
-                    // Si la ressource est déjà réservée ou consommée, chercher une autre ressource immédiatement
                     hasTarget = false;
                     MettreAJourCible();
                 }
@@ -110,13 +108,13 @@ public class Poule : MonoBehaviour
         {
             target = TrouverPointLePlusProche(foodSources);
             hasTarget = target != null;
-            if (hasTarget) _pouleDeplacement.SetTarget(target); // Assigner la nouvelle cible au script de déplacement
+            if (hasTarget) _pouleDeplacement.SetTarget(target);
         }
         else if (_Soif >= _MaxSoif / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(waterSources);
             hasTarget = target != null;
-            if (hasTarget) _pouleDeplacement.SetTarget(target); // Assigner la nouvelle cible au script de déplacement
+            if (hasTarget) _pouleDeplacement.SetTarget(target);
         }
     }
 
@@ -143,28 +141,23 @@ public class Poule : MonoBehaviour
 
     void Mourir()
     {
-        Destroy(gameObject); // Détruire l'objet poule si elle meurt
+        Destroy(gameObject);
     }
 
     void GererReproduction()
     {
-        // Mettre à jour le temps écoulé depuis la dernière reproduction
         timeSinceLastReproduction += Time.deltaTime;
 
-        // Vérifier si le cooldown est écoulé
         if (timeSinceLastReproduction >= reproductionCooldown)
         {
-            // Réinitialiser le temps écoulé pour la prochaine reproduction
             timeSinceLastReproduction = 0f;
 
-            // Vérifier si la probabilité de reproduction est remplie
             if (Random.Range(0f, 1f) < probReproduction)
             {
-                Reproduire();  // Appeler la méthode de reproduction
+                Reproduire();
             }
         }
     }
-
 
     void Reproduire()
     {
@@ -183,16 +176,16 @@ public class Poule : MonoBehaviour
             Poule pouleScript = nouvellePoule.GetComponent<Poule>();
             if (pouleScript != null)
             {
-                pouleScript.ResetStats(); 
+                pouleScript.ResetStats();
             }
         }
     }
 
     public void ResetStats()
     {
-        _Age = 0;  
-        _Faim = 0;    
-        _Soif = 0;       
+        _Age = 0;
+        _Faim = 0;
+        _Soif = 0;
     }
 
     void MettreAJourSources()
@@ -208,7 +201,6 @@ public class Poule : MonoBehaviour
 
     GameObject GetRandomPrefab()
     {
-        // Sélection aléatoire d'un prefab parmi les cinq disponibles
         GameObject[] prefabs = { _PrefabPaul, _PrefabRobert, _PrefabGabin, _PrefabGreggouze, _PrefabAntonette };
         return prefabs[Random.Range(0, prefabs.Length)];
     }

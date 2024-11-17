@@ -15,23 +15,20 @@ public class ResourceManager : MonoBehaviour
 
     private List<GameObject> activeResources = new List<GameObject>();
 
-    public float spawnInterval = 1f; // Intervalle entre chaque génération de ressources
+    public float spawnInterval = 1f;
 
     void Start()
     {
-        // Lancer la génération continue de ressources
         StartCoroutine(GenerateResourcesContinuously());
     }
 
     IEnumerator GenerateResourcesContinuously()
     {
-        while (true) // Cette boucle tourne indéfiniment
+        while (true)
         {
-            // Générer des ressources à chaque intervalle
             SpawnResources(foodPrefab, numberOfFoodSpawns);
             SpawnResources(waterPrefab, numberOfWaterSpawns);
 
-            // Attendre l'intervalle avant de générer à nouveau
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -46,12 +43,10 @@ public class ResourceManager : MonoBehaviour
                 Random.Range(spawnAreaMin.z, spawnAreaMax.z)
             );
 
-            // Vérifier si une ressource existe déjà à cet endroit
             if (!IsPositionOccupied(randomPosition))
             {
                 GameObject resource = Instantiate(prefab, randomPosition, Quaternion.identity);
 
-                // Ajouter le script "Consumable" à la ressource si nécessaire
                 if (resource.GetComponent<Consumable>() == null)
                 {
                     resource.AddComponent<Consumable>();
@@ -61,32 +56,29 @@ public class ResourceManager : MonoBehaviour
             }
             else
             {
-                // Si la position est déjà occupée, essayer une nouvelle position
-                i--;
+                i--;    
             }
         }
     }
 
     bool IsPositionOccupied(Vector3 position)
     {
-        // Vérifier si une ressource existe déjà dans un rayon proche de la position donnée
         foreach (var resource in activeResources)
         {
-            if (resource != null && Vector3.Distance(resource.transform.position, position) < 1f) // Rayon de 1 unité
+            if (resource != null && Vector3.Distance(resource.transform.position, position) < 1f)
             {
-                return true; // La position est occupée
+                return true;
             }
         }
-        return false;
+        return false;   
     }
 
     public void ConsumeResource(GameObject resource)
     {
-        // Vérifie si la ressource est valide avant de la consommer
         if (resource != null)
         {
-            activeResources.Remove(resource);  // Retirer la ressource de la liste avant de la détruire
-            DestroyImmediate(resource);  // Détruire immédiatement la ressource
+            activeResources.Remove(resource);   
+            DestroyImmediate(resource);     
         }
         else
         {

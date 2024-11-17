@@ -4,40 +4,38 @@ using UnityEngine;
 
 public class PouleDeplacement : MonoBehaviour
 {
-    public float vitesseMax = 10f;                // Vitesse maximale de la poule
-    public float vitesseMin = 5f;                // Vitesse minimale de la poule
-    public float distanceMinEntrePoules = 1.5f;  // Distance à garder entre les poules
-    public float zoneDeDetection = 3f;           // Distance pour détecter les autres poules
+    public float vitesseMax = 10f;               
+    public float vitesseMin = 5f;              
+    public float distanceMinEntrePoules = 1.5f;  
+    public float zoneDeDetection = 3f;      
 
     private Vector3 directionCourante;
     private Vector3 cibleAleatoire;
 
-    private float changementDirectionCooldown = 30f;  // Temps entre chaque changement de direction aléatoire
+    private float changementDirectionCooldown = 30f;  
     private float tempsDepuisDernierChangement = 0f;
 
-    public LayerMask layerPoules; // Layer des poules pour détecter les autres
+    public LayerMask layerPoules;
 
-    private Transform target; // La cible à atteindre (assignée par le script Poule.cs)
+    private Transform target;
 
     void Start()
     {
-        SetCibleAleatoire(); // Initialiser la cible aléatoire
+        SetCibleAleatoire();
     }
 
     void Update()
     {
-        GérerDéplacement(); // Met à jour la direction de la poule
+        GérerDéplacement(); 
     }
 
     public void SetTarget(Transform newTarget)
     {
-        // Cette fonction permet à Poule.cs de définir une cible spécifique (nourriture ou eau)
         target = newTarget;
     }
 
     public void SetSpeed(float newSpeed)
     {
-        // Cette fonction permet à Poule.cs d'ajuster la vitesse en fonction de la taille
         vitesseMax = newSpeed;
     }
 
@@ -45,9 +43,9 @@ public class PouleDeplacement : MonoBehaviour
     {
         tempsDepuisDernierChangement += Time.deltaTime;
 
-        Vector3 forceDeSeparation = CalculerForceDeSeparation(); // Évite les autres poules
+        Vector3 forceDeSeparation = CalculerForceDeSeparation();
 
-        if (target != null) // Si une cible spécifique (nourriture ou eau) est définie
+        if (target != null)
         {
             Vector3 directionVersCible = (target.position - transform.position).normalized;
             directionCourante = directionVersCible + forceDeSeparation;
@@ -56,7 +54,7 @@ public class PouleDeplacement : MonoBehaviour
         {
             if (tempsDepuisDernierChangement > changementDirectionCooldown)
             {
-                SetCibleAleatoire(); // Choisir une nouvelle cible aléatoire après un délai
+                SetCibleAleatoire(); 
                 tempsDepuisDernierChangement = 0f;
             }
 
@@ -64,23 +62,19 @@ public class PouleDeplacement : MonoBehaviour
             directionCourante = directionVersCible + forceDeSeparation;
         }
 
-        // Appliquer la vitesse minimale et maximale
         float vitesse = Mathf.Clamp(vitesseMax, vitesseMin, Mathf.Infinity);
 
-        // Déplacement vers la cible avec la vitesse
         transform.position += directionCourante * vitesse * Time.deltaTime;
 
-        // Rotation vers la direction de déplacement
         if (directionCourante != Vector3.zero)
         {
             Quaternion rotationVersCible = Quaternion.LookRotation(directionCourante);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotationVersCible, Time.deltaTime * 2f);
         }
 
-        // Si pas de cible et trop proche de la cible aléatoire, définir une nouvelle cible
         if (target == null && Vector3.Distance(transform.position, cibleAleatoire) < 0.5f)
         {
-            SetCibleAleatoire(); // Si proche de la cible aléatoire, choisir une nouvelle cible
+            SetCibleAleatoire(); 
         }
     }
 
