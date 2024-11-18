@@ -83,12 +83,11 @@ public class PouleDeplacement : MonoBehaviour
         Vector3 forceSeparation = Vector3.zero;
         int voisins = 0;
 
-        // Détecter les autres poules proches
         Collider[] poulesProches = Physics.OverlapSphere(transform.position, zoneDeDetection, layerPoules);
 
         foreach (Collider poule in poulesProches)
         {
-            if (poule.gameObject != gameObject) // Ne pas tenir compte de soi-même
+            if (poule.gameObject != gameObject) 
             {
                 Vector3 directionFuite = transform.position - poule.transform.position;
                 float distance = directionFuite.magnitude;
@@ -101,7 +100,6 @@ public class PouleDeplacement : MonoBehaviour
             }
         }
 
-        // Moyenne de la force de séparation selon le nombre de voisins
         if (voisins > 0)
         {
             forceSeparation /= voisins;
@@ -112,7 +110,6 @@ public class PouleDeplacement : MonoBehaviour
 
     void SetCibleAleatoire()
     {
-        // Définir une nouvelle cible aléatoire dans une zone autour de la poule
         cibleAleatoire = new Vector3(
             transform.position.x + Random.Range(-5f, 5f),
             transform.position.y,
@@ -123,6 +120,6 @@ public class PouleDeplacement : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, zoneDeDetection); // Affiche la zone de détection des autres poules
+        Gizmos.DrawWireSphere(transform.position, zoneDeDetection);
     }
 }

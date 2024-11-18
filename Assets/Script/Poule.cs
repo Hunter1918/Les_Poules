@@ -11,7 +11,7 @@ public class Poule : MonoBehaviour
     public int _MaxFaim = 10;
     public int _Soif = 0;
     public int _MaxSoif = 10;
-    float probReproduction = 0.5f;
+    float probReproduction = 0.7f;
 
     public Transform[] foodSources;
     public Transform[] waterSources;
@@ -43,7 +43,6 @@ public class Poule : MonoBehaviour
     {
         _Age++;
 
-        // Mise à jour régulière des sources de nourriture et d'eau
         MettreAJourSources();
 
         if (_Age >= _CycleDeVieMax)
@@ -62,10 +61,9 @@ public class Poule : MonoBehaviour
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
-            Mourir(); // La poule meurt si elle atteint le maximum de faim ou de soif
+            Mourir(); 
         }
 
-        // Si la poule a faim ou soif, elle doit constamment chercher la ressource la plus proche
         if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
         {
             MettreAJourCible();
@@ -103,7 +101,6 @@ public class Poule : MonoBehaviour
 
     void MettreAJourCible()
     {
-        // Chercher la nourriture ou l'eau la plus proche en fonction des besoins
         if (_Faim >= _MaxFaim / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(foodSources);
