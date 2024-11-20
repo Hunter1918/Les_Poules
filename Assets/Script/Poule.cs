@@ -11,7 +11,7 @@ public class Poule : MonoBehaviour
     public int _MaxFaim = 10;
     public int _Soif = 0;
     public int _MaxSoif = 10;
-    float probReproduction = 0.7f;
+    float probReproduction = 0.2f;
 
     public Transform[] foodSources;
     public Transform[] waterSources;
@@ -41,6 +41,11 @@ public class Poule : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y < -5f)
+{
+
+    transform.position = Vector3.zero;
+}
         _Age++;
 
         MettreAJourSources();

@@ -1,21 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; 
 
 public class TimeController : MonoBehaviour
 {
     private bool isPaused = false;
     private bool isFastForward = false;
+    public float FastTime = 5f;
+
+    public int days = 0;
+    public int hours = 0;
+    public int minutes = 0;
+    public float seconds = 0f;
+
+    public float secondsPerGameDay = 86400f; // Nombre de secondes dans un jour (24 * 60 * 60)
+
+    private float elapsedTime = 0f;
+
+    public TMP_Text timerText; 
 
     void Update()
     {
-        // Pause/Resume quand on appuie sur Échap
+        elapsedTime += Time.deltaTime;
+
+        float totalSeconds = elapsedTime;
+
+        days = (int)(totalSeconds / secondsPerGameDay);
+        totalSeconds -= days * secondsPerGameDay;
+
+        hours = (int)(totalSeconds / 3600);  
+        totalSeconds -= hours * 3600;
+
+        minutes = (int)(totalSeconds / 60);  
+        totalSeconds -= minutes * 60;
+
+        seconds = totalSeconds;  
+
+        //Debug.Log(string.Format("Day: {0} Time: {1:00}:{2:00}:{3:00}", days, hours, minutes, seconds));
+
+        if (timerText != null)
+        {
+            timerText.text = string.Format("Day: {0} Time: {1:00}:{2:00}:{3:00}", days, hours, minutes, (int)seconds);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
         }
 
-        // Fast forward (2x) quand on appuie sur T
         if (Input.GetKeyDown(KeyCode.T))
         {
             ToggleFastForward();
@@ -26,13 +59,11 @@ public class TimeController : MonoBehaviour
     {
         if (isPaused)
         {
-            // Reprendre le jeu
             Time.timeScale = 1f;
             isPaused = false;
         }
         else
         {
-            // Mettre en pause le jeu
             Time.timeScale = 0f;
             isPaused = true;
         }
@@ -42,14 +73,12 @@ public class TimeController : MonoBehaviour
     {
         if (isFastForward)
         {
-            // Remettre à la vitesse normale
             Time.timeScale = 1f;
             isFastForward = false;
         }
         else
         {
-            // Passer en vitesse rapide (2x)
-            Time.timeScale = 2f;
+            Time.timeScale = FastTime;
             isFastForward = true;
         }
     }
