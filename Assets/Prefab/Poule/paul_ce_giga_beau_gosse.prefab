@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 171311357762728226}
   m_Layer: 6
   m_Name: paul_ce_giga_beau_gosse
-  m_TagString: Player
+  m_TagString: Poule
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vitesseMax: 10
+  vitesseMin: 5
   distanceMinEntrePoules: 1.5
   zoneDeDetection: 3
   layerPoules:

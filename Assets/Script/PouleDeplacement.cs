@@ -26,7 +26,7 @@ public class PouleDeplacement : MonoBehaviour
 
     void Update()
     {
-        GérerDéplacement(); 
+        GérerDéplacement();     
     }
 
     public void SetTarget(Transform newTarget)

@@ -42,10 +42,10 @@ public class Poule : MonoBehaviour
     void Update()
     {
         if (transform.position.y < -5f)
-{
+        {
 
-    transform.position = Vector3.zero;
-}
+            transform.position = Vector3.zero;
+        }
         _Age++;
 
         MettreAJourSources();
@@ -66,7 +66,7 @@ public class Poule : MonoBehaviour
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
-            Mourir(); 
+            Mourir();
         }
 
         if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
