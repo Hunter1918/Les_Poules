@@ -3,21 +3,11 @@ using UnityEngine;
 
 public class UIMenu : MonoBehaviour
 {
-    public static UIMenu Instance;
 
     [SerializeField] private CanvasGroup _canvasGroup = null;
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         if (_canvasGroup == null)
         {
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -30,6 +20,8 @@ public class UIMenu : MonoBehaviour
 
     public virtual void Show()
     {
+        Debug.Log("Show");
+
         if (_canvasGroup != null)
         {
             gameObject.SetActive(true);
@@ -43,6 +35,7 @@ public class UIMenu : MonoBehaviour
 
     public virtual void Hide()
     {
+        Debug.Log("HIDE");
         if (_canvasGroup != null)
         {
             _canvasGroup.DOFade(0.0f, 0.3f).SetEase(Ease.OutSine).OnComplete(() =>

@@ -11,10 +11,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (!UIManager.Instance.IsPaused())
-        {
-            UpdateGameTime();
-        }
+       UpdateGameTime();
     }
 
     private void UpdateGameTime()
@@ -34,7 +31,7 @@ public class GameController : MonoBehaviour
 
         seconds = totalSeconds;
 
-        UIManager.Instance.UpdateGameTime(elapsedTime, days, hours, minutes, seconds);
+        UpdateGameTime();
     }
 
     public void OnPause()

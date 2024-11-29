@@ -3,10 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class UIManager : UIMenu
 {
-    public static UIManager Instance;
-
     [Header("Pause Menu Settings")]
     [SerializeField] private Button _resumeButton = null;
     [SerializeField] private Button _mainMenuButton = null;
@@ -23,17 +21,6 @@ public class UIManager : MonoBehaviour
     public TMP_Text timerText;
     public GameController gameController;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     void Start()
     {
@@ -92,17 +79,17 @@ public class UIManager : MonoBehaviour
 
     private void ShowPauseMenu()
     {
-        UIMenu.Instance.Show();
+        Show();
     }
 
     private void HidePauseMenu()
     {
-        UIMenu.Instance.Hide();
+        Hide();
     }
 
     private void HideAllMenus()
     {
-        UIMenu.Instance.Hide();
+        Hide();
     }
 
     public void LoadMainMenu()

@@ -78,7 +78,7 @@ public class ResourceManager : MonoBehaviour
         if (resource != null)
         {
             activeResources.Remove(resource);   
-            DestroyImmediate(resource);     
+            Destroy(resource);     
         }
         else
         {
