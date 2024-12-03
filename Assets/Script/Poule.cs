@@ -31,6 +31,10 @@ public class Poule : MonoBehaviour
     private float timeSinceLastReproduction = 0f;
     public float reproductionCooldown = 10f;
 
+    // Variables supplémentaires pour gérer la faim
+    public float faimDepletionRate = 1f; // Taux de déplétion de la faim
+    public float timeWithoutFood = 0f;   // Temps écoulé sans nourriture
+
     void Start()
     {
         _pouleDeplacement = GetComponent<PouleDeplacement>();
@@ -43,7 +47,6 @@ public class Poule : MonoBehaviour
     {
         if (transform.position.y < -5f)
         {
-
             transform.position = Vector3.zero;
         }
         _Age++;
@@ -83,12 +86,13 @@ public class Poule : MonoBehaviour
 
                     if (target.CompareTag("Food"))
                     {
-                        _Faim = 0;
+                        _Faim = 0; // Remise à zéro de la faim après consommation de la nourriture
                         _ResourceManager.ConsumeResource(target.gameObject);
+                        timeWithoutFood = 0f; // Réinitialisation du temps sans nourriture
                     }
                     else if (target.CompareTag("Water"))
                     {
-                        _Soif = 0;
+                        _Soif = 0; // Remise à zéro de la soif après consommation de l'eau
                         _ResourceManager.ConsumeResource(target.gameObject);
                     }
 
@@ -101,6 +105,13 @@ public class Poule : MonoBehaviour
                     MettreAJourCible();
                 }
             }
+        }
+
+        // Diminution de la faim avec le temps
+        timeWithoutFood += Time.deltaTime;
+        if (timeWithoutFood > 10f) // Par exemple, la faim augmente plus vite si la poule n'a pas mangé depuis un certain temps
+        {
+            _Faim += (int)(Time.deltaTime * faimDepletionRate);
         }
     }
 

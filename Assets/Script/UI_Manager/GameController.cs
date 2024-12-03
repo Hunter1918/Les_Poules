@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-       UpdateGameTime();
+        UpdateGameTime();
     }
 
     private void UpdateGameTime()
@@ -30,8 +30,6 @@ public class GameController : MonoBehaviour
         totalSeconds -= minutes * 60;
 
         seconds = totalSeconds;
-
-        UpdateGameTime();
     }
 
     public void OnPause()

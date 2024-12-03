@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Food
   - Water
+  - Poules
+  - Grass
   - Poule
   layers:
   - Default
