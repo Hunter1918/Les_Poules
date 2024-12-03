@@ -5,7 +5,6 @@ using TMPro;
 
 public class TimeController : MonoBehaviour
 {
-    private bool isPaused = false;
     private bool isFastForward = false;
     public float FastTime = 5f;
 
@@ -14,7 +13,7 @@ public class TimeController : MonoBehaviour
     public int minutes = 0;
     public float seconds = 0f;
 
-    public float secondsPerGameDay = 86400f; // Nombre de secondes dans un jour (24 * 60 * 60)
+    public float secondsPerGameDay = 86400f; 
 
     private float elapsedTime = 0f;
 
@@ -44,30 +43,12 @@ public class TimeController : MonoBehaviour
             timerText.text = string.Format("Day: {0} Time: {1:00}:{2:00}:{3:00}", days, hours, minutes, (int)seconds);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-
         if (Input.GetKeyDown(KeyCode.T))
         {
             ToggleFastForward();
         }
     }
 
-    void TogglePause()
-    {
-        if (isPaused)
-        {
-            Time.timeScale = 1f;
-            isPaused = false;
-        }
-        else
-        {
-            Time.timeScale = 0f;
-            isPaused = true;
-        }
-    }
 
     void ToggleFastForward()
     {
