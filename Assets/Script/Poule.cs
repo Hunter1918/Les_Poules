@@ -12,6 +12,7 @@ public class Poule : MonoBehaviour
     public int _Soif = 0;
     public int _MaxSoif = 10;
     float probReproduction = 0.2f;
+    private int NbrPoules = 100;
 
     public Transform[] foodSources;
     public Transform[] waterSources;
@@ -31,9 +32,8 @@ public class Poule : MonoBehaviour
     private float timeSinceLastReproduction = 0f;
     public float reproductionCooldown = 10f;
 
-    // Variables supplémentaires pour gérer la faim
-    public float faimDepletionRate = 1f; // Taux de déplétion de la faim
-    public float timeWithoutFood = 0f;   // Temps écoulé sans nourriture
+    public float faimDepletionRate = 1f; 
+    public float timeWithoutFood = 0f;  
 
     void Start()
     {
@@ -107,9 +107,8 @@ public class Poule : MonoBehaviour
             }
         }
 
-        // Diminution de la faim avec le temps
         timeWithoutFood += Time.deltaTime;
-        if (timeWithoutFood > 10f) // Par exemple, la faim augmente plus vite si la poule n'a pas mangé depuis un certain temps
+        if (timeWithoutFood > 10f) 
         {
             _Faim += (int)(Time.deltaTime * faimDepletionRate);
         }

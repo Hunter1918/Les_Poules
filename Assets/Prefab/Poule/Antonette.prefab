@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -9200121047258705188}
   m_Layer: 6
   m_Name: Antonette
-  m_TagString: Player
+  m_TagString: Poules
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,6 +184,8 @@ MonoBehaviour:
     type: 3}
   _PrefabAntonette: {fileID: 2796663364375027901}
   reproductionCooldown: 30
+  faimDepletionRate: 1
+  timeWithoutFood: 0
 --- !u!114 &-9200121047258705188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vitesseMax: 10
+  vitesseMin: 5
   distanceMinEntrePoules: 1.5
   zoneDeDetection: 3
   layerPoules:
