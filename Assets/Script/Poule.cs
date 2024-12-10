@@ -11,8 +11,10 @@ public class Poule : MonoBehaviour
     public int _MaxFaim = 10;
     public int _Soif = 0;
     public int _MaxSoif = 10;
-    float probReproduction = 0.2f;
-    private int NbrPoules = 100;
+    public float probReproduction = 0.2f;
+    public int NbrPoules = 0;
+    public int maxPoules = 1000;
+
 
     public Transform[] foodSources;
     public Transform[] waterSources;
@@ -24,6 +26,9 @@ public class Poule : MonoBehaviour
     public GameObject _PrefabGabin;
     public GameObject _PrefabGreggouze;
     public GameObject _PrefabAntonette;
+
+    public GameObject prefabPredator;
+
 
     private PouleDeplacement _pouleDeplacement;
     private bool hasTarget = false;
@@ -58,8 +63,19 @@ public class Poule : MonoBehaviour
             Mourir();
         }
 
+        if (NbrPoules > maxPoules) 
+        {
+            Vector3 positionNouveauPreda = new Vector3(
+                transform.position.x + Random.Range(-1f, 1f),
+                transform.position.y,
+                transform.position.z + Random.Range(-1f, 1f)
+            );
+            GameObject predaNew = Instantiate(prefabPredator, positionNouveauPreda, Quaternion.identity);
+        }
+
         GererFaimEtSoif();
         GererReproduction();
+        MettreAJourPoules();
     }
 
     void GererFaimEtSoif()
@@ -127,6 +143,24 @@ public class Poule : MonoBehaviour
             target = TrouverPointLePlusProche(waterSources);
             hasTarget = target != null;
             if (hasTarget) _pouleDeplacement.SetTarget(target);
+        }
+    }
+
+    void MettreAJourPoules()
+    {
+        NbrPoules = GameObject.FindGameObjectsWithTag("Poules").Length;
+
+        Debug.Log("Nombre de poules : " + NbrPoules);
+
+
+        if (NbrPoules >= maxPoules)
+        {
+            Debug.Log("Limite de poules atteinte, la reproduction est désactivée.");
+            probReproduction = 0f;
+        }
+        else
+        {
+            probReproduction = 0.2f;
         }
     }
 
