@@ -13,7 +13,7 @@ public class Poule : MonoBehaviour
     public int _MaxSoif = 10;
     public float probReproduction = 0.2f;
     public int NbrPoules = 0;
-    public int maxPoules = 1000;
+    public int maxPoules = 100;
 
 
     public Transform[] foodSources;
@@ -37,8 +37,8 @@ public class Poule : MonoBehaviour
     private float timeSinceLastReproduction = 0f;
     public float reproductionCooldown = 10f;
 
-    public float faimDepletionRate = 1f; 
-    public float timeWithoutFood = 0f;  
+    public float faimDepletionRate = 1f;
+    public float timeWithoutFood = 0f;
 
     void Start()
     {
@@ -63,20 +63,18 @@ public class Poule : MonoBehaviour
             Mourir();
         }
 
-        if (NbrPoules > maxPoules) 
+        MettreAJourPoules();
+        int excedentPoules = NbrPoules - maxPoules;
+
+        if (excedentPoules > 0)
         {
-            Vector3 positionNouveauPreda = new Vector3(
-                transform.position.x + Random.Range(-1f, 1f),
-                transform.position.y,
-                transform.position.z + Random.Range(-1f, 1f)
-            );
-            GameObject predaNew = Instantiate(prefabPredator, positionNouveauPreda, Quaternion.identity);
+            SpawnPredators(excedentPoules);
         }
 
         GererFaimEtSoif();
         GererReproduction();
-        MettreAJourPoules();
     }
+
 
     void GererFaimEtSoif()
     {
@@ -124,7 +122,7 @@ public class Poule : MonoBehaviour
         }
 
         timeWithoutFood += Time.deltaTime;
-        if (timeWithoutFood > 10f) 
+        if (timeWithoutFood > 10f)
         {
             _Faim += (int)(Time.deltaTime * faimDepletionRate);
         }
@@ -149,9 +147,7 @@ public class Poule : MonoBehaviour
     void MettreAJourPoules()
     {
         NbrPoules = GameObject.FindGameObjectsWithTag("Poules").Length;
-
         Debug.Log("Nombre de poules : " + NbrPoules);
-
 
         if (NbrPoules >= maxPoules)
         {
@@ -161,6 +157,21 @@ public class Poule : MonoBehaviour
         else
         {
             probReproduction = 0.2f;
+        }
+    }
+
+    void SpawnPredators(int numberOfPredators)
+    {
+        for (int i = 0; i < numberOfPredators; i++)
+        {
+            Vector3 positionNouveauPreda = new Vector3(
+                transform.position.x + Random.Range(-5f, 5f),
+                transform.position.y,
+                transform.position.z + Random.Range(-5f, 5f)
+            );
+
+            GameObject predaNew = Instantiate(prefabPredator, positionNouveauPreda, Quaternion.identity);
+            Debug.Log("Prédateur ajouté : " + i);
         }
     }
 
