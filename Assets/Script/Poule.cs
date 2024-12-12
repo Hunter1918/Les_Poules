@@ -13,7 +13,7 @@ public class Poule : MonoBehaviour
     public int _MaxSoif = 10;
     public float probReproduction = 0.2f;
     public int NbrPoules = 0;
-    public int maxPoules = 100;
+    private int maxPoules = 50;
 
 
     public Transform[] foodSources;
@@ -42,6 +42,7 @@ public class Poule : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         _pouleDeplacement = GetComponent<PouleDeplacement>();
         _pouleDeplacement.SetSpeed(Random.Range(1f, 5f));
 
@@ -66,7 +67,7 @@ public class Poule : MonoBehaviour
         MettreAJourPoules();
         int excedentPoules = NbrPoules - maxPoules;
 
-        if (excedentPoules > 0)
+        if (excedentPoules >= 0)
         {
             SpawnPredators(excedentPoules);
         }
@@ -102,7 +103,7 @@ public class Poule : MonoBehaviour
                     {
                         _Faim = 0; // Remise à zéro de la faim après consommation de la nourriture
                         _ResourceManager.ConsumeResource(target.gameObject);
-                        timeWithoutFood = 0f; // Réinitialisation du temps sans nourriture
+                        timeWithoutFood = 0f;
                     }
                     else if (target.CompareTag("Water"))
                     {

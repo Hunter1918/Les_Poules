@@ -9,22 +9,25 @@ public class ResourceManager : MonoBehaviour
 
     public int numberOfFoodSpawns = 5;
     public int numberOfWaterSpawns = 5;
+    private int MaxFood = 50;
+    private int itefoodpoules = 0;
 
     public Vector3 spawnAreaMin;
     public Vector3 spawnAreaMax;
 
     private List<GameObject> activeResources = new List<GameObject>();
 
-    public float spawnInterval = 1f;
+    public float spawnInterval = 20f;
 
     void Start()
     {
-        StartCoroutine(GenerateResourcesContinuously());
+        StartCoroutine(GenerateResources());
     }
 
-    IEnumerator GenerateResourcesContinuously()
+
+    IEnumerator GenerateResources()
     {
-        while (true)
+        while (MaxFood > itefoodpoules)
         {
             SpawnResources(foodPrefab, numberOfFoodSpawns);
             SpawnResources(waterPrefab, numberOfWaterSpawns);
@@ -42,6 +45,7 @@ public class ResourceManager : MonoBehaviour
                 0,
                 Random.Range(spawnAreaMin.z, spawnAreaMax.z)
             );
+            itefoodpoules++;
 
             if (!IsPositionOccupied(randomPosition))
             {
@@ -78,7 +82,8 @@ public class ResourceManager : MonoBehaviour
         if (resource != null)
         {
             activeResources.Remove(resource);   
-            Destroy(resource);     
+            Destroy(resource);
+            itefoodpoules--;
         }
         else
         {

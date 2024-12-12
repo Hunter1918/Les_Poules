@@ -2567,7 +2567,7 @@ PrefabInstance:
     - target: {fileID: 6950624389201790902, guid: 0cd8b9c4e790f23459722c39e4b9c1c5,
         type: 3}
       propertyPath: maxPoules
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6950624389201790902, guid: 0cd8b9c4e790f23459722c39e4b9c1c5,
         type: 3}
