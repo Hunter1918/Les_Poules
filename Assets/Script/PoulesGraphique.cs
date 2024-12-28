@@ -1,57 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; // Importation pour TextMeshPro
 
 public class PoulesGraphique : MonoBehaviour
 {
-    public Text poulesCountText; // UI Text pour afficher le nombre de poules actuel
-    public LineRenderer lineRenderer; // LineRenderer pour afficher le graphique
-    public float timeInterval = 1f; // Intervalle de temps pour mesurer le nombre de poules
-    public List<GameObject> poulesList = new List<GameObject>(); // Liste des poules dans la scène
-    public float maxTime = 30f; // Durée totale du graphique en secondes
-    private float timeElapsed = 0f; // Temps écoulé depuis le début
-    private List<Vector3> graphPoints = new List<Vector3>(); // Points pour le graphique
+    public TMP_Text poulesCountText; // Utilisation de TMP_Text au lieu de Text
+    public LineRenderer lineRenderer;
+    public float timeInterval = 1f;
+    public List<GameObject> poulesList = new List<GameObject>();
+    public float maxTime = 30f;
+    private float timeElapsed = 0f;
+    private List<Vector3> graphPoints = new List<Vector3>();
 
     void Start()
     {
-        // Initialiser le LineRenderer
         lineRenderer.positionCount = 0;
     }
 
     void Update()
     {
-        // Mettre à jour la liste des poules
         UpdatePoulesList();
 
-        // Vérifier si l'intervalle de temps est écoulé
         timeElapsed += Time.deltaTime;
         if (timeElapsed >= timeInterval)
         {
-            // Ajouter le point actuel au graphique
             AddGraphPoint();
             timeElapsed = 0f;
         }
 
-        // Mettre à jour le texte UI avec le nombre de poules actuel
         if (poulesCountText != null)
         {
             poulesCountText.text = "Nombre de poules: " + poulesList.Count;
         }
     }
 
-    // Mettre à jour la liste des poules dans la scène
     void UpdatePoulesList()
     {
         poulesList.Clear();
+
+        // Inclure les poules normales
         Poule[] poulesInScene = FindObjectsOfType<Poule>();
         foreach (Poule poule in poulesInScene)
         {
             poulesList.Add(poule.gameObject);
         }
+
+        // Inclure les Paul
+        PoulePaul[] paulsInScene = FindObjectsOfType<PoulePaul>();
+        foreach (PoulePaul paul in paulsInScene)
+        {
+            poulesList.Add(paul.gameObject);
+        }
     }
 
-    // Ajouter un point au graphique en fonction du nombre de poules actuel
     void AddGraphPoint()
     {
         if (graphPoints.Count * timeInterval <= maxTime)
@@ -60,7 +62,6 @@ public class PoulesGraphique : MonoBehaviour
             float y = poulesList.Count;
             graphPoints.Add(new Vector3(x, y, 0));
 
-            // Mettre à jour le LineRenderer
             lineRenderer.positionCount = graphPoints.Count;
             lineRenderer.SetPositions(graphPoints.ToArray());
         }

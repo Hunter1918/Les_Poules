@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Poule : MonoBehaviour
+public class PoulePaul : MonoBehaviour
 {
     public int _Age = 0;
     public int _CycleDeVieMax = 100;
@@ -12,28 +12,21 @@ public class Poule : MonoBehaviour
     public int _Soif = 0;
     public int _MaxSoif = 10;
     public float probReproduction = 0.2f;
-    public int NbrPoules = 0;
 
     public Transform[] foodSources;
     public Transform[] waterSources;
 
     public ResourceManager _ResourceManager;
 
-    public GameObject _PrefabPaul;
-    public GameObject _PrefabRobert;
-    public GameObject _PrefabGabin;
-    public GameObject _PrefabGreggouze;
-    public GameObject _PrefabAntonette;
-
     private PouleDeplacement _pouleDeplacement;
     private bool hasTarget = false;
     private Transform target;
+    private Transform currentTarget;
 
     private float timeSinceLastReproduction = 0f;
     public float reproductionCooldown = 10f;
 
-    public float faimDepletionRate = 1f;
-    public float timeWithoutFood = 0f;
+    private bool isPredator = false;
 
     void Start()
     {
@@ -59,10 +52,93 @@ public class Poule : MonoBehaviour
             Mourir();
         }
 
-        MettreAJourPoules();
+        GererEtatPaul();
 
-        GererFaimEtSoif();
-        GererReproduction();
+        if (isPredator)
+        {
+            TrackerPoules();
+        }
+        else
+        {
+            GererFaimEtSoif();
+            GererReproduction();
+        }
+    }
+
+    void GererEtatPaul()
+    {
+        int totalPoules = GameObject.FindGameObjectsWithTag("Poules").Length;
+        int totalPauls = GameObject.FindGameObjectsWithTag("Paul").Length;
+        if (totalPoules + totalPauls > 50)
+        {
+            if (totalPoules > totalPauls && !isPredator)
+            {
+                TransformToPredator();
+            }
+            else if (isPredator && totalPauls >= totalPoules / 2)
+            {
+                TransformToPaul();
+            }
+        }
+    }
+
+    void TransformToPredator()
+    {
+        isPredator = true;
+        gameObject.tag = "Predator";
+        gameObject.name = "Predator_Paul";
+        if (_pouleDeplacement != null)
+        {
+            _pouleDeplacement.enabled = false; // Désactiver le déplacement
+        }
+        Debug.Log("Paul est devenu un prédateur !");
+    }
+
+    void TransformToPaul()
+    {
+        isPredator = false;
+        gameObject.tag = "Paul";
+        gameObject.name = "Paul";
+        if (_pouleDeplacement != null)
+        {
+            _pouleDeplacement.enabled = true; // Réactiver le déplacement
+        }
+        Debug.Log("Paul est redevenu une poule !");
+    }
+
+    void TrackerPoules()
+    {
+        if (currentTarget == null)
+        {
+            GameObject[] allPoules = GameObject.FindGameObjectsWithTag("Poules");
+            float closestDistance = Mathf.Infinity;
+
+            foreach (GameObject poule in allPoules)
+            {
+                if (poule.name != "Paul") // Exclure les Paul
+                {
+                    float distance = Vector3.Distance(transform.position, poule.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        currentTarget = poule.transform;
+                    }
+                }
+            }
+        }
+
+        if (currentTarget != null)
+        {
+            Vector3 direction = (currentTarget.position - transform.position).normalized;
+            transform.position += direction * 5f * Time.deltaTime; 
+
+            if (Vector3.Distance(transform.position, currentTarget.position) < 2f)
+            {
+                Debug.Log("Paul attaque " + currentTarget.name);
+                Destroy(currentTarget.gameObject);
+                currentTarget = null;
+            }
+        }
     }
 
     void GererFaimEtSoif()
@@ -91,7 +167,6 @@ public class Poule : MonoBehaviour
                     {
                         _Faim = 0;
                         _ResourceManager.ConsumeResource(target.gameObject);
-                        timeWithoutFood = 0f;
                     }
                     else if (target.CompareTag("Water"))
                     {
@@ -109,12 +184,6 @@ public class Poule : MonoBehaviour
                 }
             }
         }
-
-        timeWithoutFood += Time.deltaTime;
-        if (timeWithoutFood > 10f)
-        {
-            _Faim += (int)(Time.deltaTime * faimDepletionRate);
-        }
     }
 
     void MettreAJourCible()
@@ -131,12 +200,6 @@ public class Poule : MonoBehaviour
             hasTarget = target != null;
             if (hasTarget) _pouleDeplacement.SetTarget(target);
         }
-    }
-
-    void MettreAJourPoules()
-    {
-        NbrPoules = GameObject.FindGameObjectsWithTag("Poules").Length + GameObject.FindGameObjectsWithTag("Paul").Length;
-        Debug.Log("Nombre de poules : " + NbrPoules);
     }
 
     Transform TrouverPointLePlusProche(Transform[] points)
@@ -182,24 +245,11 @@ public class Poule : MonoBehaviour
 
     void Reproduire()
     {
-        Debug.Log("La poule se reproduit !");
-        GameObject prefabAReproduire = GetRandomPrefab();
-        if (prefabAReproduire != null)
-        {
-            Vector3 positionNouveauPoule = new Vector3(
-                transform.position.x + Random.Range(-1f, 1f),
-                transform.position.y,
-                transform.position.z + Random.Range(-1f, 1f)
-            );
-
-            GameObject nouvellePoule = Instantiate(prefabAReproduire, positionNouveauPoule, Quaternion.identity);
-
-            Poule pouleScript = nouvellePoule.GetComponent<Poule>();
-            if (pouleScript != null)
-            {
-                pouleScript.ResetStats();
-            }
-        }
+        Debug.Log("Paul se reproduit !");
+        GameObject prefabAReproduire = Instantiate(gameObject, transform.position + Random.insideUnitSphere, Quaternion.identity);
+        prefabAReproduire.name = "Paul";
+        prefabAReproduire.tag = "Paul";
+        prefabAReproduire.GetComponent<PoulePaul>().ResetStats();
     }
 
     public void ResetStats()
@@ -218,11 +268,5 @@ public class Poule : MonoBehaviour
         waterSources = GameObject.FindGameObjectsWithTag("Water")
             .Select(go => go.transform)
             .ToArray();
-    }
-
-    GameObject GetRandomPrefab()
-    {
-        GameObject[] prefabs = { _PrefabPaul, _PrefabRobert, _PrefabGabin, _PrefabGreggouze, _PrefabAntonette };
-        return prefabs[Random.Range(0, prefabs.Length)];
     }
 }

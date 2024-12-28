@@ -168,6 +168,9 @@ MonoBehaviour:
   _MaxFaim: 10000
   _Soif: 0
   _MaxSoif: 20000
+  probReproduction: 0.2
+  NbrPoules: 0
+  poulesThresholdForPredator: 100
   foodSources:
   - {fileID: 0}
   waterSources:
@@ -182,6 +185,8 @@ MonoBehaviour:
     type: 3}
   _PrefabGreggouze: {fileID: 2848004921885685423}
   _PrefabAntonette: {fileID: 2796663364375027901, guid: 740f161fb6917664f8466f9a6bcd725e,
+    type: 3}
+  prefabPredator: {fileID: 2027525689561730745, guid: 4489351df63affd4db65cf69c64362e6,
     type: 3}
   reproductionCooldown: 30
   faimDepletionRate: 1

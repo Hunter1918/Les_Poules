@@ -9,6 +9,8 @@ TagManager:
   - Poules
   - Grass
   - Poule
+  - Paul
+  - Predator
   layers:
   - Default
   - TransparentFX

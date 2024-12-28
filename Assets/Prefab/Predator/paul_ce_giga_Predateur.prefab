@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4069895189782292842
+--- !u!1 &2027525689561730745
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2084205000226467983}
-  - component: {fileID: 6119743100858585635}
-  - component: {fileID: 6011528712027122793}
-  - component: {fileID: 7254064193808468367}
-  - component: {fileID: 7164705923454295411}
-  - component: {fileID: 528331215409343204}
-  - component: {fileID: 171311357762728226}
-  - component: {fileID: 1031056914130967332}
+  - component: {fileID: 5894404241248566266}
+  - component: {fileID: 8625914664069354598}
+  - component: {fileID: 7949224528242558284}
+  - component: {fileID: 3021031666916794868}
+  - component: {fileID: 7345658737112432228}
+  - component: {fileID: 2095632817941801766}
+  - component: {fileID: 8754967813316015571}
+  - component: {fileID: -8895553707893902656}
   m_Layer: 6
-  m_Name: paul_ce_giga_beau_gosse
-  m_TagString: Paul
+  m_Name: paul_ce_giga_Predateur
+  m_TagString: Poules
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2084205000226467983
+--- !u!4 &5894404241248566266
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6722897, y: 0, z: 10.88}
-  m_LocalScale: {x: 100.00001, y: 100.00001, z: 100.00001}
+  m_LocalPosition: {x: -63.18254, y: -0.0000076293945, z: 84.41534}
+  m_LocalScale: {x: 178.67288, y: 178.67288, z: 178.67288}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6119743100858585635
+--- !u!33 &8625914664069354598
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   m_Mesh: {fileID: 4068373912626513877, guid: 48f95f189de1cdb47bfed362df7f1287, type: 3}
---- !u!23 &6011528712027122793
+--- !u!23 &7949224528242558284
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -88,26 +88,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7254064193808468367
+--- !u!114 &3021031666916794868
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7ed5245407827458e0b790beaa2e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
---- !u!54 &7164705923454295411
+--- !u!54 &7345658737112432228
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -128,13 +128,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!64 &528331215409343204
+--- !u!64 &2095632817941801766
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -150,46 +150,35 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4068373912626513877, guid: 48f95f189de1cdb47bfed362df7f1287, type: 3}
---- !u!114 &171311357762728226
+--- !u!114 &8754967813316015571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
+  m_GameObject: {fileID: 2027525689561730745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e982939165910fa4c9137483082ef03d, type: 3}
+  m_Script: {fileID: 11500000, guid: de9d150b92bc91d4d9521d65ee6dcfaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 20
+  minDist: 1
+  target: {fileID: 0}
+--- !u!114 &-8895553707893902656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027525689561730745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f8185c1d26f9144baca8f663abaf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   vitesseMax: 10
   vitesseMin: 5
-  distanceMinEntrePoules: 1.5
-  zoneDeDetection: 3
   layerPoules:
     serializedVersion: 2
-    m_Bits: 64
---- !u!114 &1031056914130967332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069895189782292842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b9b168191b711541996d35b755f931d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Age: 0
-  _CycleDeVieMax: 10000000
-  _Faim: 0
-  _MaxFaim: 10000
-  _Soif: 0
-  _MaxSoif: 20000
-  probReproduction: 0.2
-  foodSources: []
-  waterSources: []
-  _ResourceManager: {fileID: 8040924597906987719, guid: f85b2c1a8b8efb842b09d6a80cbce60d,
-    type: 3}
-  reproductionCooldown: 30
+    m_Bits: 0
