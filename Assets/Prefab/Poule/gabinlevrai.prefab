@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2848004921885685423
+--- !u!1 &5284884245224244846
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7247253823659638621}
-  - component: {fileID: 7703794779233933685}
-  - component: {fileID: 8720191108476823542}
-  - component: {fileID: 1504383839801542684}
-  - component: {fileID: 6040555173214599566}
-  - component: {fileID: 1171742055679050317}
-  - component: {fileID: -1294230573528559128}
+  - component: {fileID: 2435937836931449726}
+  - component: {fileID: 966519165038716666}
+  - component: {fileID: 2064730708032763194}
+  - component: {fileID: 7690400710446151611}
+  - component: {fileID: 6157478737268419150}
+  - component: {fileID: -1556364514266075891}
+  - component: {fileID: -7944087899413341478}
   m_Layer: 6
-  m_Name: Greggouze
+  m_Name: gabinlevrai
   m_TagString: Poules
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7247253823659638621
+--- !u!4 &2435937836931449726
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
+  m_GameObject: {fileID: 5284884245224244846}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.102501, y: -0.0000038146973, z: 15.227566}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0, y: -0.15843552, z: -0, w: 0.9873694}
+  m_LocalPosition: {x: -14.7, y: 0, z: 16.19}
+  m_LocalScale: {x: 72.391, y: 72.391, z: 72.391}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7703794779233933685
+  m_LocalEulerAnglesHint: {x: 0, y: -18.232, z: 0}
+--- !u!33 &966519165038716666
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
-  m_Mesh: {fileID: 4068373912626513877, guid: 96d2f22d3d95ccf4caa2451408b4b3fb, type: 3}
---- !u!23 &8720191108476823542
+  m_GameObject: {fileID: 5284884245224244846}
+  m_Mesh: {fileID: 5302568919011541938, guid: 3792a473df8e25e49ae48a1645cefdfe, type: 3}
+--- !u!23 &2064730708032763194
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
+  m_GameObject: {fileID: 5284884245224244846}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 459f3482a1d47374ca701328ac05017f, type: 2}
+  - {fileID: 2100000, guid: 16cc06f121dd30e4c9bd5ce0633d3f9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,35 +87,68 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1504383839801542684
-MeshCollider:
+--- !u!114 &7690400710446151611
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
+  m_GameObject: {fileID: 5284884245224244846}
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4068373912626513877, guid: 96d2f22d3d95ccf4caa2451408b4b3fb, type: 3}
---- !u!54 &6040555173214599566
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e982939165910fa4c9137483082ef03d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vitesseMax: 10
+  vitesseMin: 5
+  distanceMinEntrePoules: 1.5
+  zoneDeDetection: 3
+  layerPoules:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &6157478737268419150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284884245224244846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7477d5feb92883c449ecb684317f2b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Age: 0
+  _CycleDeVieMax: 10000000
+  _Faim: 0
+  _MaxFaim: 10000
+  _Soif: 0
+  _MaxSoif: 20000
+  probReproduction: 0.2
+  NbrPoules: 0
+  foodSources: []
+  waterSources: []
+  _ResourceManager: {fileID: 8040924597906987719, guid: f85b2c1a8b8efb842b09d6a80cbce60d,
+    type: 3}
+  _PrefabPaul: {fileID: 4069895189782292842, guid: 0cd8b9c4e790f23459722c39e4b9c1c5,
+    type: 3}
+  _PrefabRobert: {fileID: 8838324004642842960, guid: 859d87d1e5c27754e806b36fb6c1e8c2,
+    type: 3}
+  _PrefabGabin: {fileID: 5284884245224244846}
+  _PrefabGreggouze: {fileID: 2848004921885685423, guid: 6c8006c940f75c94e9724e7f92199014,
+    type: 3}
+  _PrefabAntonette: {fileID: 2796663364375027901, guid: 740f161fb6917664f8466f9a6bcd725e,
+    type: 3}
+  reproductionCooldown: 30
+  faimDepletionRate: 1
+  timeWithoutFood: 0
+--- !u!54 &-1556364514266075891
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
+  m_GameObject: {fileID: 5284884245224244846}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -134,62 +167,27 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &1171742055679050317
-MonoBehaviour:
+--- !u!64 &-7944087899413341478
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7477d5feb92883c449ecb684317f2b17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Age: 0
-  _CycleDeVieMax: 10000000
-  _Faim: 0
-  _MaxFaim: 10000
-  _Soif: 0
-  _MaxSoif: 20000
-  probReproduction: 0.2
-  NbrPoules: 0
-  foodSources:
-  - {fileID: 0}
-  waterSources:
-  - {fileID: 0}
-  _ResourceManager: {fileID: 8040924597906987719, guid: f85b2c1a8b8efb842b09d6a80cbce60d,
-    type: 3}
-  _PrefabPaul: {fileID: 4069895189782292842, guid: 0cd8b9c4e790f23459722c39e4b9c1c5,
-    type: 3}
-  _PrefabRobert: {fileID: 8838324004642842960, guid: 859d87d1e5c27754e806b36fb6c1e8c2,
-    type: 3}
-  _PrefabGabin: {fileID: 5284884245224244846, guid: 5048e1905e9948b47a9c38cd2f4dc9fe,
-    type: 3}
-  _PrefabGreggouze: {fileID: 2848004921885685423}
-  _PrefabAntonette: {fileID: 2796663364375027901, guid: 740f161fb6917664f8466f9a6bcd725e,
-    type: 3}
-  reproductionCooldown: 30
-  faimDepletionRate: 1
-  timeWithoutFood: 0
---- !u!114 &-1294230573528559128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2848004921885685423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e982939165910fa4c9137483082ef03d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vitesseMax: 10
-  vitesseMin: 5
-  distanceMinEntrePoules: 1.5
-  zoneDeDetection: 3
-  layerPoules:
+  m_GameObject: {fileID: 5284884245224244846}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5302568919011541938, guid: 3792a473df8e25e49ae48a1645cefdfe, type: 3}

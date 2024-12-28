@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Importation pour TextMeshPro
+using TMPro;
 
 public class PoulesGraphique : MonoBehaviour
 {
-    public TMP_Text poulesCountText; // Utilisation de TMP_Text au lieu de Text
+    public TMP_Text poulesCountText;
     public LineRenderer lineRenderer;
     public float timeInterval = 1f;
     public List<GameObject> poulesList = new List<GameObject>();
@@ -39,14 +39,12 @@ public class PoulesGraphique : MonoBehaviour
     {
         poulesList.Clear();
 
-        // Inclure les poules normales
         Poule[] poulesInScene = FindObjectsOfType<Poule>();
         foreach (Poule poule in poulesInScene)
         {
             poulesList.Add(poule.gameObject);
         }
 
-        // Inclure les Paul
         PoulePaul[] paulsInScene = FindObjectsOfType<PoulePaul>();
         foreach (PoulePaul paul in paulsInScene)
         {

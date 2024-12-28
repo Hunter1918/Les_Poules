@@ -89,7 +89,7 @@ public class PoulePaul : MonoBehaviour
         gameObject.name = "Predator_Paul";
         if (_pouleDeplacement != null)
         {
-            _pouleDeplacement.enabled = false; // Désactiver le déplacement
+            _pouleDeplacement.enabled = false;
         }
         Debug.Log("Paul est devenu un prédateur !");
     }
@@ -101,7 +101,7 @@ public class PoulePaul : MonoBehaviour
         gameObject.name = "Paul";
         if (_pouleDeplacement != null)
         {
-            _pouleDeplacement.enabled = true; // Réactiver le déplacement
+            _pouleDeplacement.enabled = true;
         }
         Debug.Log("Paul est redevenu une poule !");
     }
@@ -115,7 +115,7 @@ public class PoulePaul : MonoBehaviour
 
             foreach (GameObject poule in allPoules)
             {
-                if (poule.name != "Paul") // Exclure les Paul
+                if (poule.name != "Paul")
                 {
                     float distance = Vector3.Distance(transform.position, poule.transform.position);
                     if (distance < closestDistance)
