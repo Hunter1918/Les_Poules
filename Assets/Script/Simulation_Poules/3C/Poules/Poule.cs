@@ -33,6 +33,7 @@ public class Poule : MonoBehaviour
     public float reproductionCooldown = 10f;
 
     public float faimDepletionRate = 1f;
+    public float soifDepletionRate = 1f;
     public float timeWithoutFood = 0f;
 
     void Start()
@@ -61,14 +62,22 @@ public class Poule : MonoBehaviour
 
         MettreAJourPoules();
 
-        GererFaimEtSoif();
+        GererFaimEtSoif(Time.deltaTime);
         GererReproduction();
     }
 
-    void GererFaimEtSoif()
+    public void SimulateUpdate(float deltaTime)
     {
-        _Faim++;
-        _Soif++;
+        // Ajoutez ici la logique pour avancer les comportements
+        _Age += (int)(deltaTime); // Vieillir en fonction du temps simulé
+        GererFaimEtSoif(deltaTime); // Méthode ajustée pour accepter deltaTime
+        // Ajoutez d'autres comportements nécessaires
+    }
+
+    private void GererFaimEtSoif(float deltaTime)
+    {
+        _Faim += (int)(deltaTime * faimDepletionRate);
+        _Soif += (int)(deltaTime * soifDepletionRate);
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
@@ -108,12 +117,6 @@ public class Poule : MonoBehaviour
                     MettreAJourCible();
                 }
             }
-        }
-
-        timeWithoutFood += Time.deltaTime;
-        if (timeWithoutFood > 10f)
-        {
-            _Faim += (int)(Time.deltaTime * faimDepletionRate);
         }
     }
 

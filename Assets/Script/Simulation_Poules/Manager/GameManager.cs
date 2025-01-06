@@ -43,4 +43,10 @@ public class GameManager : MonoBehaviour
             default: return null;
         }
     }
+
+    public void OnDaySimulationComplete()
+    {
+        Debug.Log("Une journée simulée est terminée ! Vous pouvez ajouter une logique ici.");
+        // Ajouter ici la logique à exécuter après la simulation d'une journée.
+    }
 }
