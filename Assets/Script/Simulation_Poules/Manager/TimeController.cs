@@ -68,24 +68,26 @@ public class TimeController : MonoBehaviour
 
         Debug.Log("Simulation d'une journée commencée.");
 
-        // Récupérer toutes les poules au début de la simulation
-        var poules = FindObjectsOfType<Poule>();
+        // Récupérer toutes les poules dans la scène
+        Poule[] poules = FindObjectsOfType<Poule>();
 
         while (totalSimulatedTime < secondsPerGameDay)
         {
             totalSimulatedTime += increment; // Simuler le temps qui passe
-            elapsedTime += increment; // Avancer le temps simulé dans le jeu
+            elapsedTime += increment; // Avancer le temps global simulé
 
-            // Mettre à jour manuellement chaque poule
-            foreach (var poule in poules)
+            // Mettre à jour chaque poule pour simuler ses comportements
+            foreach (Poule poule in poules)
             {
                 if (poule != null)
                 {
-                    poule.SimulateUpdate(increment); // Appel d'une méthode dédiée
+                    poule.SimulateUpdate(increment); // Mise à jour individuelle avec le temps simulé
                 }
             }
 
-            yield return null; // Attendre la frame suivante pour simuler
+            // Ajouter ici la mise à jour d'autres mécaniques, si nécessaire
+
+            yield return null; // Attendre la prochaine frame
         }
 
         isSimulatingDay = false;

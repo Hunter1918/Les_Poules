@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class Poule : MonoBehaviour
 {
@@ -63,7 +63,7 @@ public class Poule : MonoBehaviour
         MettreAJourPoules();
 
         GererFaimEtSoif(Time.deltaTime);
-        GererReproduction();
+        GererReproduction(Time.deltaTime);
     }
 
     public void SimulateUpdate(float deltaTime)
@@ -71,7 +71,7 @@ public class Poule : MonoBehaviour
         // Ajoutez ici la logique pour avancer les comportements
         _Age += (int)(deltaTime); // Vieillir en fonction du temps simulé
         GererFaimEtSoif(deltaTime); // Méthode ajustée pour accepter deltaTime
-        // Ajoutez d'autres comportements nécessaires
+        GererReproduction(deltaTime); // Simuler la reproduction avec deltaTime
     }
 
     private void GererFaimEtSoif(float deltaTime)
@@ -82,13 +82,18 @@ public class Poule : MonoBehaviour
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
             Mourir();
+            return; // Arrêter la fonction si la poule meurt
         }
 
         if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
         {
             MettreAJourCible();
 
-            if (hasTarget && target != null && Vector3.Distance(transform.position, target.position) < 1f)
+            if (
+                hasTarget
+                && target != null
+                && Vector3.Distance(transform.position, target.position) < 1f
+            )
             {
                 Consumable consumable = target.GetComponent<Consumable>();
 
@@ -120,25 +125,44 @@ public class Poule : MonoBehaviour
         }
     }
 
+    private void GererReproduction(float deltaTime)
+    {
+        timeSinceLastReproduction += deltaTime;
+
+        if (timeSinceLastReproduction >= reproductionCooldown)
+        {
+            timeSinceLastReproduction = 0f;
+
+            if (Random.Range(0f, 1f) < probReproduction)
+            {
+                Reproduire();
+            }
+        }
+    }
+
     void MettreAJourCible()
     {
         if (_Faim >= _MaxFaim / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(foodSources);
             hasTarget = target != null;
-            if (hasTarget) _pouleDeplacement.SetTarget(target);
+            if (hasTarget)
+                _pouleDeplacement.SetTarget(target);
         }
         else if (_Soif >= _MaxSoif / 2 && !hasTarget)
         {
             target = TrouverPointLePlusProche(waterSources);
             hasTarget = target != null;
-            if (hasTarget) _pouleDeplacement.SetTarget(target);
+            if (hasTarget)
+                _pouleDeplacement.SetTarget(target);
         }
     }
 
     void MettreAJourPoules()
     {
-        NbrPoules = GameObject.FindGameObjectsWithTag("Poules").Length + GameObject.FindGameObjectsWithTag("Paul").Length;
+        NbrPoules =
+            GameObject.FindGameObjectsWithTag("Poules").Length
+            + GameObject.FindGameObjectsWithTag("Paul").Length;
         Debug.Log("Nombre de poules : " + NbrPoules);
     }
 
@@ -149,7 +173,11 @@ public class Poule : MonoBehaviour
 
         foreach (Transform point in points)
         {
-            if (point != null && point.GetComponent<Consumable>() != null && !point.GetComponent<Consumable>().isReserved)
+            if (
+                point != null
+                && point.GetComponent<Consumable>() != null
+                && !point.GetComponent<Consumable>().isReserved
+            )
             {
                 float distance = Vector3.Distance(transform.position, point.position);
                 if (distance < distanceMin)
@@ -161,21 +189,6 @@ public class Poule : MonoBehaviour
         }
 
         return pointLePlusProche;
-    }
-
-    void GererReproduction()
-    {
-        timeSinceLastReproduction += Time.deltaTime;
-
-        if (timeSinceLastReproduction >= reproductionCooldown)
-        {
-            timeSinceLastReproduction = 0f;
-
-            if (Random.Range(0f, 1f) < probReproduction)
-            {
-                Reproduire();
-            }
-        }
     }
 
     void Mourir()
@@ -195,7 +208,11 @@ public class Poule : MonoBehaviour
                 transform.position.z + Random.Range(-1f, 1f)
             );
 
-            GameObject nouvellePoule = Instantiate(prefabAReproduire, positionNouveauPoule, Quaternion.identity);
+            GameObject nouvellePoule = Instantiate(
+                prefabAReproduire,
+                positionNouveauPoule,
+                Quaternion.identity
+            );
 
             Poule pouleScript = nouvellePoule.GetComponent<Poule>();
             if (pouleScript != null)
@@ -214,18 +231,27 @@ public class Poule : MonoBehaviour
 
     void MettreAJourSources()
     {
-        foodSources = GameObject.FindGameObjectsWithTag("Food")
+        foodSources = GameObject
+            .FindGameObjectsWithTag("Food")
             .Select(go => go.transform)
             .ToArray();
 
-        waterSources = GameObject.FindGameObjectsWithTag("Water")
+        waterSources = GameObject
+            .FindGameObjectsWithTag("Water")
             .Select(go => go.transform)
             .ToArray();
     }
 
     GameObject GetRandomPrefab()
     {
-        GameObject[] prefabs = { _PrefabPaul, _PrefabRobert, _PrefabGabin, _PrefabGreggouze, _PrefabAntonette };
+        GameObject[] prefabs =
+        {
+            _PrefabPaul,
+            _PrefabRobert,
+            _PrefabGabin,
+            _PrefabGreggouze,
+            _PrefabAntonette,
+        };
         return prefabs[Random.Range(0, prefabs.Length)];
     }
 }

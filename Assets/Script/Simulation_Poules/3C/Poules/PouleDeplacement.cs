@@ -26,7 +26,12 @@ public class PouleDeplacement : MonoBehaviour
 
     void Update()
     {
-        GérerDéplacement();     
+        GÃ©rerDÃ©placement(Time.deltaTime);     
+    }
+
+    public void SimulateUpdate(float deltaTime)
+    {
+        GÃ©rerDÃ©placement(deltaTime);
     }
 
     public void SetTarget(Transform newTarget)
@@ -39,9 +44,9 @@ public class PouleDeplacement : MonoBehaviour
         vitesseMax = newSpeed;
     }
 
-    void GérerDéplacement()
+    void GÃ©rerDÃ©placement(float deltaTime)
     {
-        tempsDepuisDernierChangement += Time.deltaTime;
+        tempsDepuisDernierChangement += deltaTime;
 
         Vector3 forceDeSeparation = CalculerForceDeSeparation();
 
@@ -64,12 +69,12 @@ public class PouleDeplacement : MonoBehaviour
 
         float vitesse = Mathf.Clamp(vitesseMax, vitesseMin, Mathf.Infinity);
 
-        transform.position += directionCourante * vitesse * Time.deltaTime;
+        transform.position += directionCourante * vitesse * deltaTime;
 
         if (directionCourante != Vector3.zero)
         {
             Quaternion rotationVersCible = Quaternion.LookRotation(directionCourante);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotationVersCible, Time.deltaTime * 2f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotationVersCible, deltaTime * 2f);
         }
 
         if (target == null && Vector3.Distance(transform.position, cibleAleatoire) < 0.5f)

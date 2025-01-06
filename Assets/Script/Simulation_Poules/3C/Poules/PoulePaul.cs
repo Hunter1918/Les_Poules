@@ -56,12 +56,32 @@ public class PoulePaul : MonoBehaviour
 
         if (isPredator)
         {
-            TrackerPoules();
+            TrackerPoules(Time.deltaTime);
         }
         else
         {
-            GererFaimEtSoif();
-            GererReproduction();
+            GererFaimEtSoif(Time.deltaTime);
+            GererReproduction(Time.deltaTime);
+        }
+    }
+
+    public void SimulateUpdate(float deltaTime)
+    {
+        _Age += (int)(deltaTime);
+
+        if (isPredator)
+        {
+            TrackerPoules(deltaTime);
+        }
+        else
+        {
+            GererFaimEtSoif(deltaTime);
+            GererReproduction(deltaTime);
+        }
+
+        if (_Age >= _CycleDeVieMax)
+        {
+            Mourir();
         }
     }
 
@@ -91,7 +111,7 @@ public class PoulePaul : MonoBehaviour
         {
             _pouleDeplacement.enabled = false;
         }
-        Debug.Log("Paul est devenu un prédateur !");
+        Debug.Log("Paul est devenu un prÃ©dateur !");
     }
 
     void TransformToPaul()
@@ -106,7 +126,7 @@ public class PoulePaul : MonoBehaviour
         Debug.Log("Paul est redevenu une poule !");
     }
 
-    void TrackerPoules()
+    void TrackerPoules(float deltaTime)
     {
         if (currentTarget == null)
         {
@@ -130,7 +150,7 @@ public class PoulePaul : MonoBehaviour
         if (currentTarget != null)
         {
             Vector3 direction = (currentTarget.position - transform.position).normalized;
-            transform.position += direction * 5f * Time.deltaTime; 
+            transform.position += direction * 5f * deltaTime; 
 
             if (Vector3.Distance(transform.position, currentTarget.position) < 2f)
             {
@@ -141,10 +161,10 @@ public class PoulePaul : MonoBehaviour
         }
     }
 
-    void GererFaimEtSoif()
+    private void GererFaimEtSoif(float deltaTime)
     {
-        _Faim++;
-        _Soif++;
+        _Faim += (int)(deltaTime);
+        _Soif += (int)(deltaTime);
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
@@ -186,6 +206,21 @@ public class PoulePaul : MonoBehaviour
         }
     }
 
+    private void GererReproduction(float deltaTime)
+    {
+        timeSinceLastReproduction += deltaTime;
+
+        if (timeSinceLastReproduction >= reproductionCooldown)
+        {
+            timeSinceLastReproduction = 0f;
+
+            if (Random.Range(0f, 1f) < probReproduction)
+            {
+                Reproduire();
+            }
+        }
+    }
+
     void MettreAJourCible()
     {
         if (_Faim >= _MaxFaim / 2 && !hasTarget)
@@ -221,21 +256,6 @@ public class PoulePaul : MonoBehaviour
         }
 
         return pointLePlusProche;
-    }
-
-    void GererReproduction()
-    {
-        timeSinceLastReproduction += Time.deltaTime;
-
-        if (timeSinceLastReproduction >= reproductionCooldown)
-        {
-            timeSinceLastReproduction = 0f;
-
-            if (Random.Range(0f, 1f) < probReproduction)
-            {
-                Reproduire();
-            }
-        }
     }
 
     void Mourir()
