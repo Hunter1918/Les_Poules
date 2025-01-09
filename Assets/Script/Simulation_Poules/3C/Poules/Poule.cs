@@ -68,12 +68,10 @@ public class Poule : MonoBehaviour
 
     public void SimulateUpdate(float deltaTime)
     {
-        // Ajoutez ici la logique pour avancer les comportements
-        _Age += (int)(deltaTime); // Vieillir en fonction du temps simulé
-        GererFaimEtSoif(deltaTime); // Méthode ajustée pour accepter deltaTime
-        GererReproduction(deltaTime); // Simuler la reproduction avec deltaTime
+        _Age += (int)(deltaTime);
+        GererFaimEtSoif(deltaTime);
+        GererReproduction(deltaTime);
     }
-
     private void GererFaimEtSoif(float deltaTime)
     {
         _Faim += (int)(deltaTime * faimDepletionRate);
@@ -82,7 +80,7 @@ public class Poule : MonoBehaviour
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
             Mourir();
-            return; // Arrêter la fonction si la poule meurt
+            return;
         }
 
         if (_Faim >= _MaxFaim / 2 || _Soif >= _MaxSoif / 2)
@@ -163,7 +161,7 @@ public class Poule : MonoBehaviour
         NbrPoules =
             GameObject.FindGameObjectsWithTag("Poules").Length
             + GameObject.FindGameObjectsWithTag("Paul").Length;
-        Debug.Log("Nombre de poules : " + NbrPoules);
+        //Debug.Log("Nombre de poules : " + NbrPoules);
     }
 
     Transform TrouverPointLePlusProche(Transform[] points)

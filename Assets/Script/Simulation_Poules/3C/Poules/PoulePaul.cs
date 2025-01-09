@@ -28,7 +28,10 @@ public class PoulePaul : MonoBehaviour
 
     private bool isPredator = false;
 
-    void Start()
+    private int totalPoules = 0;
+    private int totalPauls = 0;
+
+void Start()
     {
         Time.timeScale = 1f;
         _pouleDeplacement = GetComponent<PouleDeplacement>();
@@ -87,38 +90,33 @@ public class PoulePaul : MonoBehaviour
 
     void GererEtatPaul()
     {
-        int totalPoules = GameObject.FindGameObjectsWithTag("Poules").Length;
-        int totalPauls = GameObject.FindGameObjectsWithTag("Paul").Length;
-        if (totalPoules + totalPauls > 50)
-        {
-            if (totalPoules > totalPauls && !isPredator)
+        totalPoules = GameObject.FindGameObjectsWithTag("Poules").Length;
+        totalPauls = GameObject.FindGameObjectsWithTag("Paul").Length;
+            if (totalPoules >= totalPauls && !isPredator && totalPoules + totalPauls > 50)
             {
                 TransformToPredator();
             }
-            else if (isPredator && totalPauls >= totalPoules / 2)
+            else if (isPredator && totalPauls >= totalPoules)
             {
                 TransformToPaul();
             }
-        }
     }
 
     void TransformToPredator()
     {
         isPredator = true;
-        gameObject.tag = "Predator";
         gameObject.name = "Predator_Paul";
         if (_pouleDeplacement != null)
         {
             _pouleDeplacement.enabled = false;
         }
-        Debug.Log("Paul est devenu un prédateur !");
+        //Debug.Log("Paul est devenu un prédateur !");
     }
 
     void TransformToPaul()
     {
         isPredator = false;
-        gameObject.tag = "Paul";
-        gameObject.name = "Paul";
+        gameObject.name = "paul_ce_giga_beau_gosse";
         if (_pouleDeplacement != null)
         {
             _pouleDeplacement.enabled = true;
@@ -154,7 +152,7 @@ public class PoulePaul : MonoBehaviour
 
             if (Vector3.Distance(transform.position, currentTarget.position) < 2f)
             {
-                Debug.Log("Paul attaque " + currentTarget.name);
+                //Debug.Log("Paul attaque " + currentTarget.name);
                 Destroy(currentTarget.gameObject);
                 currentTarget = null;
             }
@@ -267,7 +265,7 @@ public class PoulePaul : MonoBehaviour
     {
         Debug.Log("Paul se reproduit !");
         GameObject prefabAReproduire = Instantiate(gameObject, transform.position + Random.insideUnitSphere, Quaternion.identity);
-        prefabAReproduire.name = "Paul";
+        prefabAReproduire.name = "paul_ce_giga_beau_gosse";
         prefabAReproduire.tag = "Paul";
         prefabAReproduire.GetComponent<PoulePaul>().ResetStats();
     }

@@ -19,7 +19,7 @@ public class TimeController : MonoBehaviour
     public TMP_Text timerText;
 
     private bool isSimulatingDay = false;
-    public float simulationDuration = 5f; // Temps réel pour simuler une journée
+    public float simulationDuration = 5f;
 
     void Update()
     {
@@ -52,7 +52,6 @@ public class TimeController : MonoBehaviour
             }
         }
 
-        // Activer la simulation d'une journée avec la touche J
         if (Input.GetKeyDown(KeyCode.J) && !isSimulatingDay)
         {
             StartCoroutine(SimulateDay());
@@ -63,31 +62,28 @@ public class TimeController : MonoBehaviour
     {
         isSimulatingDay = true;
 
-        float totalSimulatedTime = 0f; // Temps simulé total
-        float increment = secondsPerGameDay / (simulationDuration * 60); // Temps incrémenté par frame
+        float totalSimulatedTime = 0f;
+        float increment = secondsPerGameDay / (simulationDuration * 60);
 
         Debug.Log("Simulation d'une journée commencée.");
 
-        // Récupérer toutes les poules dans la scène
         Poule[] poules = FindObjectsOfType<Poule>();
 
         while (totalSimulatedTime < secondsPerGameDay)
         {
-            totalSimulatedTime += increment; // Simuler le temps qui passe
-            elapsedTime += increment; // Avancer le temps global simulé
+            totalSimulatedTime += increment;
+            elapsedTime += increment;
 
-            // Mettre à jour chaque poule pour simuler ses comportements
             foreach (Poule poule in poules)
             {
                 if (poule != null)
                 {
-                    poule.SimulateUpdate(increment); // Mise à jour individuelle avec le temps simulé
+                    poule.SimulateUpdate(increment);
                 }
             }
 
-            // Ajouter ici la mise à jour d'autres mécaniques, si nécessaire
 
-            yield return null; // Attendre la prochaine frame
+            yield return null;
         }
 
         isSimulatingDay = false;

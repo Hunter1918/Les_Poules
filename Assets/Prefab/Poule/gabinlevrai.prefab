@@ -141,6 +141,7 @@ MonoBehaviour:
     type: 3}
   reproductionCooldown: 30
   faimDepletionRate: 1
+  soifDepletionRate: 1
   timeWithoutFood: 0
 --- !u!54 &-1556364514266075891
 Rigidbody:
@@ -167,7 +168,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!64 &-7944087899413341478
 MeshCollider:
