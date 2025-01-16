@@ -161,8 +161,8 @@ void Start()
 
     private void GererFaimEtSoif(float deltaTime)
     {
-        _Faim += (int)(deltaTime);
-        _Soif += (int)(deltaTime);
+        _Faim += 1;
+        _Soif += 1;
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {

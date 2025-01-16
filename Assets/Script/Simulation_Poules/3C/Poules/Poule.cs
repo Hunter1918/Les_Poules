@@ -32,8 +32,6 @@ public class Poule : MonoBehaviour
     private float timeSinceLastReproduction = 0f;
     public float reproductionCooldown = 10f;
 
-    public float faimDepletionRate = 1f;
-    public float soifDepletionRate = 1f;
     public float timeWithoutFood = 0f;
 
     void Start()
@@ -74,8 +72,8 @@ public class Poule : MonoBehaviour
     }
     private void GererFaimEtSoif(float deltaTime)
     {
-        _Faim += (int)(deltaTime * faimDepletionRate);
-        _Soif += (int)(deltaTime * soifDepletionRate);
+        _Faim += 1;
+        _Soif += 1;
 
         if (_Faim >= _MaxFaim || _Soif >= _MaxSoif)
         {
